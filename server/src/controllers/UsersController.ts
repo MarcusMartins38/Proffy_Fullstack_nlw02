@@ -14,13 +14,17 @@ export default class UsersController {
 
     const createUserService = new CreateUserService();
 
-    const user = await createUserService.create({
-      name,
-      surname,
-      email,
-      password,
-    });
+    try {
+      const user = await createUserService.create({
+        name,
+        surname,
+        email,
+        password,
+      });
 
-    return response.status(201).json(user);
+      return response.status(201).json(user);
+    } catch (err) {
+      return response.status(400).json({ Error: err.message });
+    }
   }
 }

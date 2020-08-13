@@ -24,18 +24,13 @@ class AuthenticateService {
       (user) => user.email === email
     );
 
-    console.log(findUser);
-
     if (!findUser) {
-      console.log("AQUI");
       throw new Error("Incorrect email/password combination.");
     }
 
     const passwordCompare = await compare(password, findUser.password);
 
     if (!passwordCompare) {
-      console.log("AQUI2");
-
       throw new Error("Incorrect email/password combination.");
     }
 
