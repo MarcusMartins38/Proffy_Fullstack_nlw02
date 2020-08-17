@@ -9,9 +9,12 @@ export const Container = styled.div`
   display: flex;
   align-items: center;
 
+  overflow-y: hidden;
+
   @media (max-width: 700px) {
     flex-direction: column;
     overflow-x: hidden;
+    overflow-y: auto;
   }
 `;
 
@@ -23,9 +26,9 @@ export const Background = styled.div`
 
   @media (max-width: 700px) {
     width: 100vw;
-    min-height: 60vh;
+    min-height: 100vh;
     flex: 1;
-    margin-bottom: 5rem;
+    margin-top: 5rem;
   }
 `;
 
@@ -44,10 +47,18 @@ export const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
 
-  height: 36rem;
+  height: 100%;
   width: 35.2rem;
   color: var(--color-text-complement);
   margin: 128px 0;
+
+  a {
+    align-self: flex-start;
+    transition: opacity 0.2s;
+    &:hover {
+      opacity: 0.6;
+    }
+  }
 
   input {
     ::placeholder {
@@ -56,11 +67,21 @@ export const LoginContainer = styled.div`
   }
 
   h1 {
+    padding-top: 14rem;
     color: var(--color-text-title);
+  }
+
+  p {
+    margin-top: 2rem;
     margin-bottom: 4rem;
+    max-width: 215px;
   }
 
   form {
+    input {
+      height: 70px;
+      /* margin: -0.5px 0; */
+    }
     div {
       display: flex;
       align-items: center;
@@ -92,6 +113,7 @@ export const LoginContainer = styled.div`
     height: 56px;
     cursor: pointer;
 
+    margin-top: 4rem;
     border: 0;
     border-bottom: 8px solid var(--color-secundary-dark);
     border-radius: 8px;
@@ -105,77 +127,5 @@ export const LoginContainer = styled.div`
     &:hover {
       border-bottom: 2px solid var(--color-secundary-dark);
     }
-  }
-`;
-
-export const PasswordDiv = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding-top: 2.4rem;
-  padding-bottom: 4rem;
-
-  div {
-    display: flex;
-    align-items: center;
-    position: relative;
-
-    input {
-      width: 24px;
-      height: 24px;
-
-      margin-right: 16px;
-    }
-
-    img {
-      padding-top: 6px;
-      box-shadow: 0;
-
-      position: absolute;
-      background-color: var(--color-secundary);
-      border-radius: 4px;
-
-      width: 23px;
-      height: 24px;
-    }
-  }
-
-  a {
-    width: 100%;
-
-    text-decoration: none;
-    color: var(--color-text-complement);
-    transition: color 0.3s;
-
-    &:hover {
-      color: var(--color-primary-dark);
-    }
-  }
-`;
-
-export const Footer = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  width: 352px;
-
-  p {
-    font-size: 16px;
-    line-height: 26px;
-    a {
-      color: var(--color-primary);
-      font-weight: 600;
-      transition: color 0.3s;
-
-      &:hover {
-        color: var(--color-primary-dark);
-      }
-    }
-  }
-
-  @media (max-width: 700px) {
-    margin-bottom: 5rem;
   }
 `;

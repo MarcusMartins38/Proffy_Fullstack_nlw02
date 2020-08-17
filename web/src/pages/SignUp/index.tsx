@@ -1,55 +1,69 @@
 import React, { useState, useCallback } from "react";
 import { Link, useHistory } from "react-router-dom";
+import api from "../../services/api";
 
 import Input from "../../components/Input";
 
-import {
-  Container,
-  Background,
-  Content,
-  LoginContainer,
-  PasswordDiv,
-  Footer,
-} from "./styles";
+import { Container, Background, Content, LoginContainer } from "./styles";
 
-import heartIcon from "../../assets/images/icons/purple-heart.svg";
-import correct from "../../assets/images/icons/correct.svg";
+import backIcon from "../../assets/images/icons/back.svg";
 import showPasswordIcon from "../../assets/images/icons/showPassword.svg";
 import hidePasswordIcon from "../../assets/images/icons/hidePassword.svg";
-import api from "../../services/api";
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const history = useHistory();
 
   const [isChecked, setIsChecked] = useState(false);
-  const [rememberMe, setRememberMe] = useState(false);
 
+  const [name, setName] = useState("");
+  const [surname, setSurname] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
   const handleClickButton = useCallback(() => {
     api
-      .post("/session", {
+      .post("/users", {
+        name,
+        surname,
         email,
         password,
       })
       .then((response) => {
-        history.push("/landing");
+        alert("Cadastrado com Sucesso!");
+
+        history.push("/");
       })
       .catch(() => {
-        alert("Erro ao logar.");
+        alert("Erro ao cadastrar.");
       });
-  }, [email, history, password]);
+  }, [email, history, name, password, surname]);
 
   return (
     <Container>
-      <Background />
-
       <Content>
         <LoginContainer>
-          <h1>Fazer login</h1>
+          <Link to="/">
+            <img src={backIcon} alt="Voltar" />
+          </Link>
+
+          <h1>Cadastro</h1>
+          <p>Preencha os dados abaixo para começar.</p>
 
           <form>
+            <Input
+              placeholder="Nome"
+              name="nome"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+
+            <Input
+              placeholder="Sobrenome"
+              name="sobrenome"
+              value={surname}
+              onChange={(e) => setSurname(e.target.value)}
+            />
+
             <Input
               placeholder="E-mail"
               name="email"
@@ -79,43 +93,16 @@ const SignIn: React.FC = () => {
               </div>
             </Input>
 
-            <PasswordDiv>
-              <div>
-                <input
-                  type="checkbox"
-                  checked={rememberMe}
-                  onChange={() => setRememberMe(!rememberMe)}
-                />
-                {rememberMe && (
-                  <img
-                    onClick={() => setRememberMe(!rememberMe)}
-                    src={correct}
-                  />
-                )}
-                <label>Lembrar-me</label>
-              </div>
-              <Link to="/">Esqueci minha senha!</Link>
-            </PasswordDiv>
-
-            <button onClick={handleClickButton} type="button">
-              Entrar
+            <button type="button" onClick={handleClickButton}>
+              Concluir Cadastro
             </button>
           </form>
         </LoginContainer>
-
-        <Footer>
-          <p>
-            Não tem conta?
-            <br /> <Link to="/signup">Cadastre-se</Link>
-          </p>
-
-          <span>
-            É de graça <img src={heartIcon} alt="purple heart" />
-          </span>
-        </Footer>
       </Content>
+
+      <Background />
     </Container>
   );
 };
 
-export default SignIn;
+export default SignUp;
