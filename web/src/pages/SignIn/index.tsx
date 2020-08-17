@@ -1,7 +1,8 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useContext } from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import Input from "../../components/Input";
+import { AuthContext } from "../../hooks/auth";
 
 import {
   Container,
@@ -19,6 +20,7 @@ import hidePasswordIcon from "../../assets/images/icons/hidePassword.svg";
 import api from "../../services/api";
 
 const SignIn: React.FC = () => {
+  const { user, signIn } = useContext(AuthContext);
   const history = useHistory();
 
   const [isChecked, setIsChecked] = useState(false);
@@ -27,19 +29,11 @@ const SignIn: React.FC = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
+  console.log(user);
+
   const handleClickButton = useCallback(() => {
-    api
-      .post("/session", {
-        email,
-        password,
-      })
-      .then((response) => {
-        history.push("/landing");
-      })
-      .catch(() => {
-        alert("Erro ao logar.");
-      });
-  }, [email, history, password]);
+    signIn({ email, password });
+  }, [email, password, signIn]);
 
   return (
     <Container>
