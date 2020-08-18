@@ -10,6 +10,10 @@
   background: var(--color-primary);
 }
 
+#page-landing h1 {
+  align-self: flex-start;
+}
+
 .logo-container img {
   height: 10rem;
 }

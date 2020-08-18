@@ -24,8 +24,11 @@ function Landing() {
 
   return (
     <div id="page-landing">
+      <h1>AAAAA</h1>
       <div id="page-landing-content" className="container">
         <div className="logo-container">
+          {/* Anexado o perfil do usuario, ou achar outra maneira <h1></h1> */}
+
           <img src={logoImg} alt="Proffy" />
           <h2>Sua plataforma de estudos online.</h2>
         </div>
