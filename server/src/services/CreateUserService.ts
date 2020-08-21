@@ -14,6 +14,7 @@ interface Request {
   surname: string;
   email: string;
   password: string;
+  avatar?: string;
 }
 
 class CreateUserService {
@@ -22,6 +23,7 @@ class CreateUserService {
     surname,
     email,
     password,
+    avatar,
   }: Request): Promise<User> {
     const alreadyExist = (await db("users")).findIndex(
       (user) => email === user.email
@@ -37,6 +39,7 @@ class CreateUserService {
       surname,
       email,
       password: hashedPassword,
+      avatar,
     };
 
     await db("users").insert(user);

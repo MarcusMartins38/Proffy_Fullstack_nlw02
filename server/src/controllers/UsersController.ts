@@ -3,6 +3,8 @@ import db from "../database/connection";
 import CreateUserService from "../services/CreateUserService";
 import UpdateUserAvatarService from "../services/UpdateUserAvatarService";
 
+import { networkInterfaces } from "os";
+
 export default class UsersController {
   async index(request: Request, response: Response) {
     const getAllUsers = await db("users");
@@ -21,6 +23,8 @@ export default class UsersController {
         surname,
         email,
         password,
+        avatar:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/200px-User_font_awesome.svg.png",
       });
 
       return response.status(201).json(user);
@@ -32,6 +36,22 @@ export default class UsersController {
   async updateAvatar(request: Request, response: Response) {
     try {
       const updateUserAvatar = new UpdateUserAvatarService();
+
+      const nets = networkInterfaces();
+      const results = Object.create(null);
+
+      for (const name of Object.keys(nets)) {
+        for (const net of nets[name]) {
+          if (net.family === "IPv4" && !net.internal) {
+            if (!results[name]) {
+              results[name] = [];
+            }
+            results[name].push(net.address);
+          }
+        }
+      }
+
+      const machineIp = results.enp2s0[0];
 
       const user = await updateUserAvatar.execute({
         user_id: request.user.id,

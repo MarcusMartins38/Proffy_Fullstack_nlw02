@@ -5,7 +5,17 @@ export async function up(knex: Knex) {
     table.increments("id").primary();
     table.string("whatsapp").notNullable();
     table.string("bio").notNullable();
-  });
+
+    
+    table
+    .integer("user_id")
+    .notNullable()
+    .references("id")
+    .inTable("users")
+    .onDelete("CASCADE")
+    .onUpdate("CASCADE");
+
+});
 }
 
 export async function down(knex: Knex) {

@@ -1,6 +1,7 @@
 import db from "../database/connection";
 import path from "path";
 import fs from "fs";
+import { networkInterfaces } from "os";
 
 import uploadConfig from "../config/upload";
 
@@ -43,11 +44,31 @@ class UpdateUserAvatarService {
       }
     }
 
+    const nets = networkInterfaces();
+    const results = Object.create(null);
+
+    for (const name of Object.keys(nets)) {
+      for (const net of nets[name]) {
+        if (net.family === "IPv4" && !net.internal) {
+          if (!results[name]) {
+            results[name] = [];
+          }
+          results[name].push(net.address);
+        }
+      }
+    }
+
+    const machineIp = results.enp2s0[0];
+
     await db("users")
       .where("id", "=", findUser.id)
       .update("avatar", avatarFilename);
 
-    const user = { ...findUser, avatar: avatarFilename };
+    const user = {
+      ...findUser,
+      avatar: avatarFilename,
+      avatar_url: `http://${machineIp}:3333/files/${avatarFilename}`,
+    };
 
     delete user.password;
 
