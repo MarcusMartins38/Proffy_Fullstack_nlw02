@@ -23,11 +23,15 @@ export default class UsersController {
         surname,
         email,
         password,
-        avatar:
-          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/200px-User_font_awesome.svg.png",
       });
 
-      return response.status(201).json(user);
+      const serializedUser = {
+        ...user,
+        avatar_url:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/7/7c/User_font_awesome.svg/200px-User_font_awesome.svg.png",
+      };
+
+      return response.status(201).json(serializedUser);
     } catch (err) {
       return response.status(400).json({ Error: err.message });
     }
